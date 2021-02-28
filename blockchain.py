@@ -68,6 +68,32 @@ class Blockchain(object):
             blockStr = json.dumps(block, sort_keys=True).encode()
             return hashlib.sha256(blockStr).hexdigest()
 
-        
+        def proofWork(self, lastProof):
+            """
+            Proof of work Algorithm:
+                - Find a numper p' such that hash(pp') contains 4 leading 0's, where p is previous p' (proof of prevBlock)
+                - p is the previous proof, and p' is the new proof
 
+            Args:
+                lastProof (int): Last proof (proof of prevBlock)
+            """
+
+            proof = 0
+            while self.validProof(lastProof, proof) is False:
+                proof += 1
+
+            return proof
+
+        def validProof(self, lastProof, proof):
+            """
+            Validates the proof: Does hash(lastProof, proof) have 4 leading 0's?
+
+            Args:
+                lastProof (int): last proof
+                proof (int): current proof
+            """
+
+            guess = f'{lastProof}{proof}'.encode()
+            guessHash = hashlib.sha256(guess).hexdigest()
+            return guessHash[:4] == "0000"
 
