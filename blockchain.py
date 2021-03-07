@@ -96,7 +96,7 @@ class Blockchain(object):
             lastProof (int): Last proof (proof of prevBlock)
 
         Returns:
-            int
+            int: New proof
         """
 
         proof = 0
